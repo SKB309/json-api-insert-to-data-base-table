@@ -97,11 +97,18 @@ public class Main {
 
 		try (Connection conn1 = DriverManager.getConnection(url, user, pass);
 				Statement stmt = conn1.createStatement();) {
-			String sql = "CREATE TABLE JsonDataTest25 " + "( Id int PRIMARY KEY IDENTITY(1,1)," + " common VARCHAR(1000),"
-					+ " tld VARCHAR(1000)," + " cca2 VARCHAR(1000) ," 
-					+ " ccn3 VARCHAR(1000) ," + " cca3 VARCHAR(1000),"
-					+ " cioc VARCHAR(1000)," + " independent bit ," + " status VARCHAR(1000)," + " unMember bit ,"
-//					+" altSpellings VARCHAR(1000),)";
+			String sql = "CREATE TABLE JsonDataTest25 "
+				    + "( Id int PRIMARY KEY IDENTITY(1,1)," 
+					+ " common VARCHAR(1000),"
+					+ " tld VARCHAR(1000)," 
+					+ " cca2 VARCHAR(1000) ," 
+					+ " ccn3 VARCHAR(1000) ," 
+					+ " cca3 VARCHAR(1000),"
+					+ " cioc VARCHAR(1000)," 
+					+ " independent bit ," 
+					+ " status VARCHAR(1000)," 
+					+ " unMember bit ,"
+//					+ " altSpellings VARCHAR(1000),)";
                     + " landlocked bit,"
 					+ " region VARCHAR(1000) ,"
 			        + " area float ," 
@@ -127,8 +134,7 @@ public class Main {
 			        + " png VARCHAR(1000) ," 
 			        + " svg VARCHAR(1000),)"; 
 //			        + " latlng float ,)";
-
-//			 " capital VARCHAR(1000) ," + 
+//			        + "capital VARCHAR(1000)," 			  
 			
 			
 			stmt.executeUpdate(sql);
@@ -154,72 +160,53 @@ public class Main {
 
 		HttpClient client = HttpClient.newHttpClient();
 
-//		System.out.println(" printing (API) information  ");
-//
-//		HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://restcountries.com/v3.1/all")).build();
+//		
 //
 		HttpResponse<String> response = client.send(request2, HttpResponse.BodyHandlers.ofString());
 		
 		
 		
-//		System.out.println(response.body());
 		Gson gson1 = new Gson();
 		FirstOne[] firstOne = new Gson().fromJson(response.body(), FirstOne[].class);
 		System.out.println(firstOne);
 		
 		for (FirstOne firstOne1 : firstOne) {
 			
-			String sql = "Insert into JsonDataTest25 values( '" + firstOne1.getName().getCommon()
-					+ "','" + firstOne1.getTld()[0]+ "' ,'" + firstOne1.getCca2() + "','" + firstOne1.getCcn3() + "','" + firstOne1.getCca3()+"','"
-					+ firstOne1.getCioc() + "','" + firstOne1.isIndependent() + "','"
-					+ firstOne1.getStatus() + "','" + firstOne1.isUnMember() + "','"
-//			
-//					+ "','" + firstOne1.getAltSpellings()[0] + "',
-			       
+			String sql = "Insert into JsonDataTest25 values( '"
+			        + firstOne1.getName().getCommon()+ "','" 
+					+ firstOne1.getTld()[0]+ "' ,'" 
+			        + firstOne1.getCca2() + "','" 
+					+ firstOne1.getCcn3() + "','" 
+			        + firstOne1.getCca3()+"','"
+					+ firstOne1.getCioc() + "','" 
+			        + firstOne1.isIndependent() + "','"
+					+ firstOne1.getStatus() + "','" 
+			        + firstOne1.isUnMember() + "','"
+//					+ firstOne1.getAltSpellings()[0] +"','" 
 					+ firstOne1.isLandlocked() + "','"
-//							+ ",'"
 					+ firstOne1.getRegion() + "',"
-//							+ ",'"
                     + firstOne1.getArea()   + ",'"
-//			
 					+ firstOne1.getFlag()   + "',"
-//			
 					+ firstOne1.getPopulation() + ",'" 
-			        
 					+ firstOne1.getFifa() + "','" 
-					
 					+ firstOne1.getTimezones()[0]+"','"
-			
 			        + firstOne1.getContinents()[0] + "','"
-//					
                     + firstOne1.getStartOfWeek() + "','"
-
                     + firstOne1.getName().getCommon1() +"','"
-//			       
 					+ firstOne1.getName().getOfficial() + "','"
-					
 //                  + firstOne1.getXcd().getSymbol()+ "','"
 //[Lcom.danyal.FirstOne;@2e377400
 //Exception in thread "main" java.lang.NullPointerException: Cannot invoke "com.danyal.SubCurrencies.getSymbol()" because the return value of "com.danyal.FirstOne.getSubcurrencies()" is null
-
 					+ firstOne1.getIdd().getRoot() +"','" 
-//					
                     + firstOne1.getIdd().getSuffixes()[0] + "','"
-					                    
                     + firstOne1.getLanguages().getEng()+"','"
-                   
                     +firstOne1.getCurrencies()+"','"
-			
 //			        + firstOne1.getM() + "')";
-
                     + firstOne1.getMaps().getGoogleMaps() + "','"
-//			
 					+ firstOne1.getMaps().getOpenStreetMaps() + "','"
-//			        
 			        + firstOne1.getCar().getSigns()[0] + "','"
 					+ firstOne1.getCar().getSide() + "','"
 			        + firstOne1.getCoatOfArms().getPng() +"','"
-//					
 			        + firstOne1.getCoatOfArms().getSvg() +"')";
 //                  + firstOne1.getCapitalInfo().getLatlng()[0] + ")";
 
