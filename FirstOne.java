@@ -13,7 +13,7 @@ public class FirstOne {
 	private boolean independent;
 	private String status;
 	private boolean unMember;
-	private Currencies currencies;
+	private SubCurrencies Subcurrencies;
 	private Idd idd;
 	private String[] capital;
 	private String[] altSpellings;
@@ -35,6 +35,7 @@ public class FirstOne {
 	private CoatOfArms coatOfArms;
 	private String startOfWeek;
 	private CapitalInfo capitalInfo;
+	private Currencies currencies;
 
 	private Eng eng;
 
@@ -58,12 +59,18 @@ public class FirstOne {
 		this.eng = eng;
 	}
 
-	public Currencies getCurrencies() {
-		return currencies;
+	
+
+	public SubCurrencies getSubcurrencies() {
+		return Subcurrencies;
 	}
 
-	public void setCurrencies(Currencies currencies) {
-		this.currencies = currencies;
+	public void setSubcurrencies(SubCurrencies subcurrencies) {
+		Subcurrencies = subcurrencies;
+	}
+
+	public void setArea(float area) {
+		this.area = area;
 	}
 
 	public Idd getIdd() {
@@ -312,6 +319,14 @@ public class FirstOne {
 
 	public void setTranslations(TransaltionSubType translations) {
 		this.translations = translations;
+	}
+
+	public Currencies getCurrencies() {
+		return currencies;
+	}
+
+	public void setCurrencies(Currencies currencies) {
+		this.currencies = currencies;
 	}
 
 }

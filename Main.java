@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 public class Main {
 
@@ -21,7 +24,8 @@ public class Main {
 	Currencies currencies;
 	Idd idd;
 	Languages languages;
-	TransaltionSubType translations;
+	TransaltionSubType transaltionSubType;
+	Translations translations;
 	Demonyms demonyms;
 	Maps maps;
 	Car car;
@@ -29,6 +33,8 @@ public class Main {
 	CapitalInfo capitalInfo;
 	Eng eng;
 	Xcd xcd;
+	SubCurrencies subCurrencies;
+	
 
 	public static void mainMenue() {
 
@@ -91,18 +97,40 @@ public class Main {
 
 		try (Connection conn1 = DriverManager.getConnection(url, user, pass);
 				Statement stmt = conn1.createStatement();) {
-			String sql = "CREATE TABLE JsonData " + "( Id int PRIMARY KEY IDENTITY(1,1)," + " name VARCHAR(1000),"
-					+ " tld VARCHAR(1000)," + " cca2 VARCHAR(1000) ," + " ccn3 VARCHAR(1000) ," + " cca3 VARCHAR(1000),"
+			String sql = "CREATE TABLE JsonDataTest25 " + "( Id int PRIMARY KEY IDENTITY(1,1)," + " common VARCHAR(1000),"
+					+ " tld VARCHAR(1000)," + " cca2 VARCHAR(1000) ," 
+					+ " ccn3 VARCHAR(1000) ," + " cca3 VARCHAR(1000),"
 					+ " cioc VARCHAR(1000)," + " independent bit ," + " status VARCHAR(1000)," + " unMember bit ,"
-					+ " capital VARCHAR(1000) ," + " altSpellings VARCHAR(1000)," + " landlocked bit,"
-					+ " region VARCHAR(1000) ," + " area float ," + " flag VARCHAR(1000) ," + " population Bigint ,"
-					+ " fifa VARCHAR(500) ," + " timezones VARCHAR(1000) ," + " continents VARCHAR(1000),"
-					+ " startOfWeek VARCHAR(1000) ," + " common VARCHAR(1000) ," + " official VARCHAR(1000) ,"
-					+ " symbol VARCHAR(1000) ," + " root VARCHAR(1000) ," + " suffixes VARCHAR(1000),"
-					+ " eng VARCHAR(1000) ," + " f VARCHAR(1000) ," + " m VARCHAR(1000),"
-					+ " googleMaps VARCHAR(1000) ," + " openStreetMaps VARCHAR(1000) ," + " signs VARCHAR(1000),"
-					+ " side VARCHAR(1000) ," + " png VARCHAR(1000) ," + " svg VARCHAR(1000)," + " latlng float ,)";
+//					+" altSpellings VARCHAR(1000),)";
+                    + " landlocked bit,"
+					+ " region VARCHAR(1000) ,"
+			        + " area float ," 
+			        + " flag VARCHAR(1000) ,"
+			        + " population Bigint ,"
+					+ " fifa VARCHAR(500) ," 
+			        + " timezones VARCHAR(1000) ,"
+                    + " continents VARCHAR(1000),"
+					+ " startOfWeek VARCHAR(1000) ,"
+			        + " common1 VARCHAR(1000) ," 
+			        + " official VARCHAR(1000) ,"
+//					+ " symbol VARCHAR(1000) ," 
+			        + " root VARCHAR(1000) ," 
+                    + " suffixes VARCHAR(1000),"
+					+ " eng VARCHAR(1000) ," 
+//			        + " f VARCHAR(1000) ," 
+					+ "Currencies VARCHAR(1000),"
+//                  + " m VARCHAR(1000),)";
+					+ " googleMaps VARCHAR(1000) ," 
+			        + " openStreetMaps VARCHAR(1000) ,"
+			        + " signs VARCHAR(1000),"
+					+ " side VARCHAR(1000) ,"
+			        + " png VARCHAR(1000) ," 
+			        + " svg VARCHAR(1000),)"; 
+//			        + " latlng float ,)";
 
+//			 " capital VARCHAR(1000) ," + 
+			
+			
 			stmt.executeUpdate(sql);
 			System.out.println("Created table in given database...");
 		} catch (SQLException e) {
@@ -126,39 +154,82 @@ public class Main {
 
 		HttpClient client = HttpClient.newHttpClient();
 
-		System.out.println(" printing (API) information  ");
-
-		HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://restcountries.com/v3.1/all")).build();
-
-		HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-		System.out.println(response.body());
-		Gson gson = new Gson();
+//		System.out.println(" printing (API) information  ");
+//
+//		HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://restcountries.com/v3.1/all")).build();
+//
+		HttpResponse<String> response = client.send(request2, HttpResponse.BodyHandlers.ofString());
+		
+		
+		
+//		System.out.println(response.body());
+		Gson gson1 = new Gson();
 		FirstOne[] firstOne = new Gson().fromJson(response.body(), FirstOne[].class);
 		System.out.println(firstOne);
 		
 		for (FirstOne firstOne1 : firstOne) {
 			
-			String sql = "Insert into JsonData values( '" + firstOne1.getName() + "','" + firstOne1.getTld()[0]
-					+ "','" + firstOne1.getCca2() + "','" + firstOne1.getCcn3() + "','" + firstOne1.getCca3()
-					+ "','" + firstOne1.getCioc() + "'," + firstOne1.isIndependent() + ",'"
-					+ firstOne1.getStatus() + "'," + firstOne1.isUnMember() + ",'" + firstOne1.getCapital()[0]
-					+ "','" + firstOne1.getAltSpellings()[0] + "'," + firstOne1.isLandlocked() + ",'"
-					+ firstOne1.getRegion() + "'," + firstOne1.getArea() + ",'" + firstOne1.getFlag() + "',"
-					+ firstOne1.getPopulation() + ",'" + firstOne1.getFifa() + "','" + firstOne1.getTimezones()[0]
-					+ "','" + firstOne1.getContinents()[0] + "','" + firstOne1.getStartOfWeek() + "','"
-					+ firstOne1.getName().getCommon() + "','" + firstOne1.getName().getOfficial() + "','"
-					+ firstOne1.getIdd().getRoot() + "','" + firstOne1.getIdd().getSuffixes()[0] + "','"
-					+ firstOne1.getLanguages() + "','" + firstOne1.getMaps().getGoogleMaps() + "','"
-					+ firstOne1.getMaps().getOpenStreetMaps() + "','" + firstOne1.getCar().getSigns()[0] + "','"
-					+ firstOne1.getCar().getSide() + "','" + firstOne1.getCoatOfArms().getPng() + "','"
-					+ firstOne1.getCoatOfArms().getSvg() + "'," + firstOne1.getCapitalInfo().getLatlng()[0] + ")";
+			String sql = "Insert into JsonDataTest25 values( '" + firstOne1.getName().getCommon()
+					+ "','" + firstOne1.getTld()[0]+ "' ,'" + firstOne1.getCca2() + "','" + firstOne1.getCcn3() + "','" + firstOne1.getCca3()+"','"
+					+ firstOne1.getCioc() + "','" + firstOne1.isIndependent() + "','"
+					+ firstOne1.getStatus() + "','" + firstOne1.isUnMember() + "','"
+//			
+//					+ "','" + firstOne1.getAltSpellings()[0] + "',
+			       
+					+ firstOne1.isLandlocked() + "','"
+//							+ ",'"
+					+ firstOne1.getRegion() + "',"
+//							+ ",'"
+                    + firstOne1.getArea()   + ",'"
+//			
+					+ firstOne1.getFlag()   + "',"
+//			
+					+ firstOne1.getPopulation() + ",'" 
+			        
+					+ firstOne1.getFifa() + "','" 
+					
+					+ firstOne1.getTimezones()[0]+"','"
+			
+			        + firstOne1.getContinents()[0] + "','"
+//					
+                    + firstOne1.getStartOfWeek() + "','"
+
+                    + firstOne1.getName().getCommon1() +"','"
+//			       
+					+ firstOne1.getName().getOfficial() + "','"
+					
+//                  + firstOne1.getXcd().getSymbol()+ "','"
+//[Lcom.danyal.FirstOne;@2e377400
+//Exception in thread "main" java.lang.NullPointerException: Cannot invoke "com.danyal.SubCurrencies.getSymbol()" because the return value of "com.danyal.FirstOne.getSubcurrencies()" is null
+
+					+ firstOne1.getIdd().getRoot() +"','" 
+//					
+                    + firstOne1.getIdd().getSuffixes()[0] + "','"
+					                    
+                    + firstOne1.getLanguages().getEng()+"','"
+                   
+                    +firstOne1.getCurrencies()+"','"
+			
+//			        + firstOne1.getM() + "')";
+
+                    + firstOne1.getMaps().getGoogleMaps() + "','"
+//			
+					+ firstOne1.getMaps().getOpenStreetMaps() + "','"
+//			        
+			        + firstOne1.getCar().getSigns()[0] + "','"
+					+ firstOne1.getCar().getSide() + "','"
+			        + firstOne1.getCoatOfArms().getPng() +"','"
+//					
+			        + firstOne1.getCoatOfArms().getSvg() +"')";
+//                  + firstOne1.getCapitalInfo().getLatlng()[0] + ")";
 
 			
 
 //		'"+ firstOne[0].getXcd().getSymbol()+ "',
 //		'" + firstOne[0].getEng().getF()+ "',
 //		'" + firstOne[0].getEng().getM() + "',
+//			'" + firstOne1.getCapital()[0]+"',
+			System.out.println(sql);
 
 			Connection con;
 

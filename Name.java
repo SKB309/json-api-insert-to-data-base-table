@@ -24,5 +24,9 @@ public class Name {
 	public void setNativeName(NativeName nativeName) {
 		this.nativeName = nativeName;
 	}
+	public String getCommon1() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
